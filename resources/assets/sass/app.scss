@@ -1,0 +1,33 @@
+
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+.demo-view pre.wrap {
+	white-space: pre-wrap;
+}
+
+.demo-view .tab-pane {
+	p.offset-sm {
+		margin-top: 1em;
+	}
+
+	p.offset-lg {
+		margin-top: 2em;
+	}
+}
+
+ul.nav li.divider {
+	margin: 0;
+	padding: 0;
+
+	hr {
+		padding: 0 auto;
+		margin: 1em auto;
+	}
+}
