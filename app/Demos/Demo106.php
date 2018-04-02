@@ -2,8 +2,6 @@
 
 namespace App\Demos;
 
-use Illuminate\Http\Request;
-
 class Demo106 extends Demo
 {
 	public function getType()
@@ -18,24 +16,27 @@ class Demo106 extends Demo
 
 	public function getDescription()
 	{
-		return 'Sends POST request as <code>multipart/form-data</code> with encrypted files. File form names exercise PHP\'s name mangling.
+		return 'Sends POST request as <code>multipart/form-data</code> with encrypted files. Form file names exercise PHP\'s name mangling.
 		</p><p>There are differences from standard GET / POST parameter name mangling, such that form entries with invalid array syntax
 		(like <code>fi.le[</code>, <code>fi.le[]extra[]</code> <code>array [[][]</code> or <code>array]</code>) are completely ignored by PHP.</p><p>
 		Encrypted Api always checks that each uploaded file was not changed or swapped with other files from the request or completely
-		new file during transmit, also that file data was not passed as main request, and also that no new valid files were uploaded, or re-uploaded
-		later (replay attacks protection is also supported for file uploads).
+		new file during transmit, also that file data was not passed as main request and vice versa, and also that no new valid files were uploaded,
+		or re-uploaded later (replay attacks protection is supported for file uploads).
 		Attacker can not delete any files from the request, as Encrypted Api checks each file upload and if one is missing, request validation
 		will fail.</p><p>
-		Encrypted Api client currently requires that each sent file can fit into calling application\'s memory at a time.</p><p>
+		Encrypted Api client currently requires that each sent file can fit into calling application\'s memory one at a time.</p><p>
 		File names and form field names for files are not passed encrypted. Attacker can not modify passed file names, as those are checked by the server.
-		Attacker also can not fully modify form field names for files,
-		only to an extent that causes PHP to parse the file form field name exactly the same as original, for example form field name
-		<code>fi_les[]</code> can be replaced to <code>   fi les[0]</code> by the attacker, but this does not cause any harm to the application.';
+		Attacker also can not fully modify file form field names, only to an extent that causes PHP to parse the form file field name exactly the same
+		as original, for example form file field name <code>fi_les[]</code> can be replaced to <code>   fi les[0]</code> by the attacker, but this
+		does not cause any harm to the application.
+		</p><p>Notice that all standard multipart form values that are not files are stripped from the
+		request by the Encrytpted Api client, and are passed securely (encrypted) as a part of main request body. Any standard form parameters
+		injected during request transmission will be ignored by the server and not present in the final decrypted request.';
 	}
 
 	public function getResponseDescription()
 	{
-		return parent::getResponseDescription() . '<br><br>Notice that the "main" request is sent differently as PHP would natively process it
+		return parent::getResponseDescription() . '<br><br>Notice the "main" request is sent differently as PHP would natively process it
 		and is seen by the server as a standard <code>application/x-www-form-urlencoded</code> request.';
 	}
 
@@ -147,7 +148,7 @@ class Demo106 extends Demo
 				],
 				[
 					'name' => 'arraytest3',
-					'contents' => 'file arraytest3-3 contents)',
+					'contents' => 'file arraytest3-3 contents',
 					'filename' => 'filearraytest3-3.txt',
 				],
 				[

@@ -19,7 +19,7 @@ class Demo005 extends Demo
 
 	public function getDescription()
 	{
-		return 'Sends GET request with cookies. The cookies are passed encrypted by default.';
+		return 'Sends GET request with cookies. The cookies are transmitted encrypted by default.';
 	}
 
 	public function getGuzzleClientParameters()

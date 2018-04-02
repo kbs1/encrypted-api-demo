@@ -14,12 +14,14 @@ class Demo006 extends Demo
 
 	public function getTitle()
 	{
-		return 'GET with unencrypted cookies';
+		return 'GET with visible cookies';
 	}
 
 	public function getDescription()
 	{
-		return 'Sends GET request with unencrypted cookies. If you were to send both encrypted and unencrypted cookies by crafting your own request, unencrypted cookies would be ignored by the server.';
+		return 'Sends GET request with visible cookies.
+		Visible cookies (and headers generally) are headers present in stadard request / response with their copy in encrypted body.
+		Their values are always replaced, meaning visible headers can\'t be changed along the way.';
 	}
 
 	public function getGuzzleClientParameters()
@@ -37,6 +39,6 @@ class Demo006 extends Demo
 
 	public function modifyClient()
 	{
-		$this->client->withPlainHeader('Cookie');
+		$this->client->withVisibleHeader('Cookie');
 	}
 }

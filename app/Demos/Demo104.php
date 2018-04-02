@@ -2,8 +2,6 @@
 
 namespace App\Demos;
 
-use Illuminate\Http\Request;
-
 class Demo104 extends Demo
 {
 	protected $random_data;
@@ -25,7 +23,7 @@ class Demo104 extends Demo
 
 	public function getDescription()
 	{
-		return 'Sends POST with arbitrary binary data as request body. <code>Content-Type</code> is <code>application/octet-stream</code>';
+		return 'Sends POST with arbitrary binary data as request body. <code>Content-Type</code> is <code>application/octet-stream</code>.';
 	}
 
 	public function getRequestMethod()

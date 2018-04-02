@@ -29,8 +29,8 @@ class Demo113 extends Demo
 
 	public function modifyClient()
 	{
-		$this->client->withPlainHeader('X-Guzzle-Redirect-History');
-		$this->client->withPlainHeader('X-Guzzle-Redirect-Status-History');
+		$this->client->withVisibleHeader('X-Guzzle-Redirect-History');
+		$this->client->withVisibleHeader('X-Guzzle-Redirect-Status-History');
 	}
 
 	public function getGuzzleClientParameters()

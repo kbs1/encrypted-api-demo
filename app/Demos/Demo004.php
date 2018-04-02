@@ -34,12 +34,11 @@ class Demo004 extends Demo
 	public function getGuzzleClientParameters()
 	{
 		return ['form_params' => [
-			'deep.array' => [
-				0 => ['x' => 'binary' . chr(3) . chr(4) . chr(5)],
-				'k[' => 'binary' . chr(6) . chr(7) . chr(8),
-				't.s.t' => [['binary' . chr(1) . chr(2) . chr(3)]],
-			],
-			' more params ' => ['f[' => 'val', 8 => 'val2'],
+			'deep.array[t.s.t][][]' => 'binary' . chr(1) . chr(2) . chr(3),
+			'deep.array[][x]' => 'binary' . chr(3) . chr(4) . chr(5),
+			'deep.array[k[]' => 'binary' . chr(6) . chr(7) . chr(8),
+			' more params [[f]ignored]ignored' => 'val',
+			' more params [8]' => 'val2',
 		]];
 	}
 }

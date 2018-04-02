@@ -18,8 +18,8 @@ class Demo111 extends Demo
 
 	public function getDescription()
 	{
-		return 'Sends POST request with XML document as body. Server endpoint redirects to Demo 001. Request body is discarded by Guzzle, so
-		Demo 001 request won\'t receive it.';
+		return 'Sends POST request with XML document as body. Server endpoint redirects to Demo 001. Request body is discarded by Guzzle
+		using non strict redirects, so Demo 001 request won\'t receive it.';
 	}
 
 	public function getRequestMethod()

@@ -89,6 +89,11 @@ abstract class Demo
 		return;
 	}
 
+	public function viewResponseEscaped()
+	{
+		return false;
+	}
+
 	public function headersToString($headers)
 	{
 		$result = [];

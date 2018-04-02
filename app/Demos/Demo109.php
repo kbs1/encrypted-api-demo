@@ -2,8 +2,6 @@
 
 namespace App\Demos;
 
-use Illuminate\Http\Request;
-
 class Demo109 extends Demo
 {
 	public function getType()
@@ -13,15 +11,16 @@ class Demo109 extends Demo
 
 	public function getTitle()
 	{
-		return 'POST some files with unencrypted headers';
+		return 'POST some files with visible headers';
 	}
 
 	public function getDescription()
 	{
 		return 'Sends POST request as <code>multipart/form-data</code> with encrypted files. Files contain extra headers, which are sent
-		unencrypted in this demo.
+		visible in this demo.
 		<code>Content-Type</code> and <code>Content-Length</code> headers are always overridden for files by the Encrypted Api client,
-		other headers may be sent unencrypted. PHP natively ignores all file headers except <code>Content-Type</code>.';
+		other headers may be sent visible. PHP natively ignores all file headers except <code>Content-Type</code>. Forced content type
+		in this demo is replaced by the server middleware upon request processing.';
 	}
 
 	public function getRequestMethod()
@@ -31,7 +30,7 @@ class Demo109 extends Demo
 
 	public function modifyClient()
 	{
-		$this->client->setUnencryptedFilesHeaders(true);
+		$this->client->visibleFilesHeaders(true);
 	}
 
 	public function getGuzzleClientParameters()

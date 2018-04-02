@@ -16,7 +16,9 @@ class Demo008 extends Demo
 
 	public function getDescription()
 	{
-		return 'Sends GET request with query parametrs and encrypted parameters. Laravel\'s global middleware, such as <code>TrimStrings</code> or <code>ConvertEmptyStringsToNull</code> is exercised, as well as PHP\'s parameter name mangling. Notice PHP\'s superglobals contain original strings, as superglobals are independent on the Laravel request.';
+		return 'Sends GET request with query parametrs and encrypted parameters. Laravel\'s global middleware, such as
+		<code>TrimStrings</code> or <code>ConvertEmptyStringsToNull</code> are exercised, as well as PHP\'s parameter
+		name mangling. Notice PHP\'s superglobals contain original strings, as superglobals are independent of the Laravel\'s request.';
 	}
 
 	public function getRequestQueryString()

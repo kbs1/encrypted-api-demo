@@ -20,7 +20,8 @@ class Demo010 extends Demo
 
 	public function getDescription()
 	{
-		return 'Sends a simple GET request to a server endpoint, which sets some cookies and extra response headers. Response cookies and extra headers are transmitted encrypted by default. Automatic HTTP method spoofing is disabled.';
+		return 'Sends a simple GET request to a server endpoint, which sets some cookies and extra response headers.
+		Response cookies and extra headers are transmitted encrypted by default. Automatic HTTP method spoofing is disabled in this demo.';
 	}
 
 	public function getRequestUrl()

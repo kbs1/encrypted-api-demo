@@ -2,8 +2,6 @@
 
 namespace App\Demos;
 
-use Illuminate\Http\Request;
-
 class Demo103 extends Demo
 {
 	public function getType()

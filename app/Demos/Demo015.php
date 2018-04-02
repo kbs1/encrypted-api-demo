@@ -17,7 +17,7 @@ class Demo015 extends Demo
 	public function getDescription()
 	{
 		return 'Sends GET request with username, password, port and fragment in URL. These components are ignored by the server, and URL check still
-		succeeds.';
+		succeeds. Notice PHP populates <code>PHP_AUTH_USER</code> and <code>PHP_AUTH_PW</code> headers natively.';
 	}
 
 	public function getRequestUrl()

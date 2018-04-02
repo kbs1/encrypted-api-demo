@@ -18,7 +18,9 @@ class Demo100 extends Demo
 
 	public function getDescription()
 	{
-		return 'Sends simple POST request with encrypted POST parameters and unencrypted GET parameters. API endpoint controller utilizes a FormRequest to validate the input. Laravel\'s global middleware and PHP\'s parameter name mangling are exercised.';
+		return 'Sends simple POST request with encrypted POST parameters and unencrypted GET parameters. API endpoint utilizes a FormRequest
+		to validate the input. Laravel\'s global middleware and PHP\'s parameter name mangling are exercised. Visible and encrypted headers
+		are sent by both the client and the server.';
 	}
 
 	public function getRequestMethod()
@@ -35,7 +37,7 @@ class Demo100 extends Demo
 	{
 		return [
 			'headers' => [
-				'X-Request-Header-Unencrypted' => 'unencrypted',
+				'X-Request-Header-Visible' => 'visible',
 				'X-Request-Header-Encrypted' => 'encrypted',
 			],
 			'form_params' => [
@@ -50,14 +52,14 @@ class Demo100 extends Demo
 
 	public function modifyClient()
 	{
-		$this->client->withPlainHeader('X-Request-Header-Unencrypted');
+		$this->client->withVisibleHeader('X-Request-Header-Visible');
 	}
 
 	public function executeServer(Request $request)
 	{
 		return response(parent::executeServer($request))
-			->withPlainHeader('X-Response-Header-Unencrypted')
-			->header('X-Response-Header-Unencrypted', 'unencrypted')
+			->withVisibleHeader('X-Response-Header-Visible')
+			->header('X-Response-Header-Visible', 'visible')
 			->header('X-Response-Header-Encrypted', 'encrypted')
 		;
 	}

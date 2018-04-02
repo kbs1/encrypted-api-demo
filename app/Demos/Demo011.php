@@ -15,12 +15,16 @@ class Demo011 extends Demo
 
 	public function getTitle()
 	{
-		return 'server sends plain cookies and plain extra headers';
+		return 'server sends visible cookies and visible extra headers';
 	}
 
 	public function getDescription()
 	{
-		return 'Sends a simple GET request to a server endpoint, which sets some cookies and extra response headers. Response cookies and extra headers (except <code>X-Extra-Header-3</code>) are transmitted unencrypted in this demo. Automatic HTTP method spoofing is disabled.';
+		return 'Sends a simple GET request to a server endpoint, which sets some cookies and extra response headers.
+		Response cookies and extra headers (except <code>X-Extra-Header-3</code>) are transmitted visible in this demo.
+		Visible headers are headers present in stadard request / response with their copy in encrypted body.
+		Their values are always replaced, meaning visible headers can\'t be changed along the way.
+		Automatic HTTP method spoofing is disabled in this demo.';
 	}
 
 	public function getRequestUrl()
@@ -45,9 +49,9 @@ class Demo011 extends Demo
 	{
 		Cookie::queue('test_cookie', 'test_value', 123);
 		return response(parent::executeServer($request))
-			->withPlainHeader('Set-Cookie')
-			->withPlainHeader('X-Extra-Header-1')
-			->withPlainHeader('X-Extra-Header-2')
+			->withVisibleHeader('Set-Cookie')
+			->withVisibleHeader('X-Extra-Header-1')
+			->withVisibleHeader('X-Extra-Header-2')
 			->header('X-Extra-Header-1', 'foo')
 			->header('X-Extra-Header-2', 'bar')
 			->header('X-Extra-Header-3', 'encrypted')

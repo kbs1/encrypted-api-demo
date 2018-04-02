@@ -16,7 +16,9 @@ class Demo003 extends Demo
 
 	public function getDescription()
 	{
-		return 'Sends basic GET request with query parametrs and encrypted parameters. Encrypted parameters take precedence in the input bag if the same parameter is also passed as a query parameter. Notice passed array is not merged, but replaced.';
+		return 'Sends basic GET request with query parametrs and encrypted parameters.
+		Encrypted parameters take precedence in the input bag if the same parameter is also passed as a query parameter.
+		Notice passed array is not merged, but replaced.';
 	}
 
 	public function getRequestQueryString()

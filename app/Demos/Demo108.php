@@ -2,8 +2,6 @@
 
 namespace App\Demos;
 
-use Illuminate\Http\Request;
-
 class Demo108 extends Demo
 {
 	public function getType()
@@ -18,7 +16,8 @@ class Demo108 extends Demo
 
 	public function getDescription()
 	{
-		return 'Sends POST request as <code>multipart/form-data</code> with encrypted files. Files contain extra headers, which are sent encrypted by default. Only header that PHP doesn\'t ignore for file uploads is <code>Content-Type</code>.';
+		return 'Sends POST request as <code>multipart/form-data</code> with encrypted files. Files contain extra headers, which are sent
+		encrypted by default. Only header that PHP doesn\'t ignore for file uploads is <code>Content-Type</code>.';
 	}
 
 	public function getRequestMethod()
