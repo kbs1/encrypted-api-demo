@@ -28,14 +28,12 @@ class Demo109 extends Demo
 		return 'POST';
 	}
 
-	public function modifyClient()
-	{
-		$this->client->visibleFilesHeaders(true);
-	}
-
-	public function getGuzzleClientParameters()
+	public function getRequestOptions()
 	{
 		return [
+			'encrypted_api' => [
+				'files_visible_headers' => true,
+			],
 			'multipart' => [
 				[
 					'name' => 'parameter1',

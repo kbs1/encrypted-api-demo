@@ -24,7 +24,7 @@ class Demo006 extends Demo
 		Their values are always replaced, meaning visible headers can\'t be changed along the way.';
 	}
 
-	public function getGuzzleClientParameters()
+	public function getRequestOptions()
 	{
 		$jar = CookieJar::fromArray([
 			'cookie_name' => 'cookie_value',
@@ -33,12 +33,10 @@ class Demo006 extends Demo
 		], Request::getHost());
 
 		return [
+			'encrypted_api' => [
+				'visible_headers' => ['Cookie'],
+			],
 			'cookies' => $jar,
 		];
-	}
-
-	public function modifyClient()
-	{
-		$this->client->withVisibleHeader('Cookie');
 	}
 }

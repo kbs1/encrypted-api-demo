@@ -26,7 +26,7 @@ class Demo003 extends Demo
 		return 'onlyget=thisone&foo=bar&' . urlencode('array[]') . '=' . urlencode('utf8bytes_ťžľčťč');
 	}
 
-	public function getGuzzleClientParameters()
+	public function getRequestOptions()
 	{
 		return ['form_params' => ['foo' => 'BAZ', 'array' => ['new_value_utf8_čťťľčťľč'], 'onlyencrypted' => 'value']];
 	}

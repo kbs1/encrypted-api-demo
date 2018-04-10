@@ -24,9 +24,12 @@ class Demo013 extends Demo
 		automatically discards them (each redirect request is a GET request by default).';
 	}
 
-	public function getGuzzleClientParameters()
+	public function getRequestOptions()
 	{
 		return [
+			'encrypted_api' => [
+				'visible_headers' => ['X-Request-Header-Visible'],
+			],
 			'headers' => [
 				'X-Request-Header-Visible' => 'visible',
 				'X-Request-Header-Encrypted' => 'encrypted',
@@ -35,11 +38,6 @@ class Demo013 extends Demo
 				'value' => 'value',
 			]
 		];
-	}
-
-	public function modifyClient()
-	{
-		$this->client->withVisibleHeader('X-Request-Header-Visible');
 	}
 
 	public function executeServer(Request $request)

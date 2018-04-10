@@ -31,7 +31,7 @@ class Demo004 extends Demo
 		return implode('&', $query);
 	}
 
-	public function getGuzzleClientParameters()
+	public function getRequestOptions()
 	{
 		return ['form_params' => [
 			'deep.array[t.s.t][][]' => 'binary' . chr(1) . chr(2) . chr(3),

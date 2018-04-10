@@ -23,8 +23,12 @@ class Demo007 extends Demo
 		By default, Encrypted Api client automatically sends GET requests as POST with HTTP method spoofed to GET.';
 	}
 
-	public function modifyClient()
+	public function getRequestOptions()
 	{
-		$this->client->automaticMethodSpoofing(false);
+		return [
+			'encrypted_api' => [
+				'automatic_method_spoofing' => false,
+			],
+		];
 	}
 }

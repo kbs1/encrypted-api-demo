@@ -24,19 +24,17 @@ class Demo012 extends Demo
 		Their values are always replaced, meaning visible headers can\'t be changed along the way.';
 	}
 
-	public function getGuzzleClientParameters()
+	public function getRequestOptions()
 	{
 		return [
+			'encrypted_api' => [
+				'visible_headers' => ['X-Request-Header-Visible'],
+			],
 			'headers' => [
 				'X-Request-Header-Visible' => 'visible',
 				'X-Request-Header-Encrypted' => 'encrypted',
 			],
 		];
-	}
-
-	public function modifyClient()
-	{
-		$this->client->withVisibleHeader('X-Request-Header-Visible');
 	}
 
 	public function executeServer(Request $request)

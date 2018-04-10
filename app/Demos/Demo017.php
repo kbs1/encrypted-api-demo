@@ -41,11 +41,18 @@ class Demo017 extends Demo
 		return 'client_uuid=549096e6-cfb6-434f-afb2-b92c5de990ff';
 	}
 
-	public function createClient()
+	public function getRequestOptions()
 	{
-		$this->client = EncryptedApiClient::create(
-			[65, 92, 29, 159, 90, 137, 76, 94, 22, 13, 177, 145, 71, 200, 129, 232, 230, 67, 32, 9, 74, 81, 26, 8, 229, 66, 7, 51, 2, 223, 46, 236, 109, 37],
-			[64, 145, 211, 199, 66, 130, 62, 87, 139, 40, 235, 93, 60, 25, 76, 73, 53, 211, 229, 14, 152, 169, 65, 121, 46, 223, 72, 69, 91, 149, 128, 134, 26, 137, 81, 64, 184, 18, 248, 192, 80, 255, 46, 69, 71, 75, 123, 31]
-		);
+		return [
+			'encrypted_api' => [
+				'secret1' => [65, 92, 29, 159, 90, 137, 76, 94, 22, 13, 177, 145, 71, 200, 129, 232, 230, 67, 32, 9, 74, 81, 26, 8, 229, 66, 7, 51, 2, 223, 46, 236, 109, 37],
+				'secret2' => [64, 145, 211, 199, 66, 130, 62, 87, 139, 40, 235, 93, 60, 25, 76, 73, 53, 211, 229, 14, 152, 169, 65, 121, 46, 223, 72, 69, 91, 149, 128, 134, 26, 137, 81, 64, 184, 18, 248, 192, 80, 255, 46, 69, 71, 75, 123, 31],
+			],
+			'headers' => [
+				'X-Visible-Request-Header' => 'visible request header - can not be modified',
+				'X-Unmanaged-Request-Header' => 'unmanaged request header - can be modified',
+				'X-Encrypted-Request-Header' => 'encrypted request header - invisible and can not be modified',
+			],
+		];
 	}
 }

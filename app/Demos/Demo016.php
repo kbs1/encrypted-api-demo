@@ -31,15 +31,13 @@ class Demo016 extends Demo
 		may be changed during transmission. All headers are managed by default.';
 	}
 
-	public function modifyClient()
-	{
-		$this->client->withVisibleHeader('X-Visible-Request-Header');
-		$this->client->withoutManagedHeader('X-Unmanaged-Request-Header');
-	}
-
-	public function getGuzzleClientParameters()
+	public function getRequestOptions()
 	{
 		return [
+			'encrypted_api' => [
+				'visible_headers' => ['X-Visible-Request-Header'],
+				'unmanaged_headers' => ['X-Unmanaged-Request-Header'],
+			],
 			'headers' => [
 				'X-Visible-Request-Header' => 'visible request header - can not be modified',
 				'X-Unmanaged-Request-Header' => 'unmanaged request header - can be modified',

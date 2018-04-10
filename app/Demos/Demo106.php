@@ -45,7 +45,7 @@ class Demo106 extends Demo
 		return 'POST';
 	}
 
-	public function getGuzzleClientParameters()
+	public function getRequestOptions()
 	{
 		return [
 			'multipart' => [

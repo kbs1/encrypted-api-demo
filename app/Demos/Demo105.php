@@ -2,6 +2,8 @@
 
 namespace App\Demos;
 
+use Kbs1\EncryptedApiClientPhp\Client as EncryptedApiClient;
+
 class Demo105 extends Demo
 {
 	public function getType()
@@ -18,7 +20,7 @@ class Demo105 extends Demo
 	{
 		return 'Sends POST request as <code>multipart/form-data</code> with encrypted files.
 		</p><p>Notice that all standard multipart form values that are not files are stripped from the
-		request by the Encrytpted Api client, and are passed securely (encrypted) as a part of main request body. Any standard form parameters
+		request by the Encrytpted Api client helper method, and are passed securely (encrypted) as a part of main request body. Any standard form parameters
 		injected during request transmission will be ignored by the server and not present in the final decrypted request.';
 	}
 
@@ -27,7 +29,7 @@ class Demo105 extends Demo
 		return 'POST';
 	}
 
-	public function getGuzzleClientParameters()
+	public function getRequestOptions()
 	{
 		return [
 			'multipart' => [

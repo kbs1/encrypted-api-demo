@@ -10,12 +10,13 @@ class ClientController extends DemoController
 	{
 		$demo = $this->loadDemo($number);
 
+		$response = null;
 		if ($execute) {
 			if (request()->input('disable_exception_handling') == '1') {
-				$demo->executeClient();
+				$response = $demo->executeClient();
 			} else {
 				try {
-					$demo->executeClient();
+					$response = $demo->executeClient();
 				} catch (\Exception $ex) {
 					return view('demo.index', [
 						'demo' => $demo,
@@ -28,10 +29,10 @@ class ClientController extends DemoController
 
 		return view('demo.index', [
 			'demo' => $demo,
-			'request' => $demo->isExecuted() ? $demo->getClient()->getRequest() : null,
-			'raw_response' => $demo->isExecuted() ? $demo->getClient()->getRawResponse() : null,
-			'response' => $demo->isExecuted() ? $demo->getClient()->getResponse() : null,
-			'cookies' => $demo->isExecuted() ? $demo->getClient()->getRequestOption('cookies') : null,
+			'request' => $demo->isExecuted() ? $demo->getMiddleware()->getLastRawRequest() : null,
+			'raw_response' => $demo->isExecuted() ? $demo->getMiddleware()->getLastRawResponse() : null,
+			'response' => $response,
+			'cookies' => $demo->isExecuted() ? $demo->getLastRequestOption('cookies') : null,
 			'activeTab' => 'demo-' . $demo->getNumber(),
 		]);
 	}

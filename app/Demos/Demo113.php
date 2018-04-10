@@ -19,7 +19,7 @@ class Demo113 extends Demo
 	public function getDescription()
 	{
 		return 'Sends POST request with XML document as body. Server endpoint redirects to Demo 001. Guzzle client is configured for strict redirects, meaning
-		the redirect will be executed as POST as well and will succeed. Redirects tracking is not supported.';
+		the redirect will be executed as POST as well and will succeed. Redirects tracking is enabled in this demo as well as referer handling.';
 	}
 
 	public function getRequestMethod()
@@ -27,13 +27,7 @@ class Demo113 extends Demo
 		return 'POST';
 	}
 
-	public function modifyClient()
-	{
-		$this->client->withVisibleHeader('X-Guzzle-Redirect-History');
-		$this->client->withVisibleHeader('X-Guzzle-Redirect-Status-History');
-	}
-
-	public function getGuzzleClientParameters()
+	public function getRequestOptions()
 	{
 		return [
 			'headers' => [

@@ -18,7 +18,7 @@ class Demo110 extends Demo
 
 	public function getDescription()
 	{
-		return 'Sends POST request as <code>multipart/form-data</code> with encrypted files. Files are sent to an endpoint which redirects to Demo 105.
+		return 'Sends POST request as <code>multipart/form-data</code> with encrypted files. Files are sent to an endpoint which redirects to Demo 001.
 		Multipart redirects are not supported with non-strict redirects as subsequent request sent by guzzle is GET with multipart body,
 		which PHP fails to parse.';
 	}
@@ -28,7 +28,7 @@ class Demo110 extends Demo
 		return 'POST';
 	}
 
-	public function getGuzzleClientParameters()
+	public function getRequestOptions()
 	{
 		return [
 			'multipart' => [

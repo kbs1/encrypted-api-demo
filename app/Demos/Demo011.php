@@ -33,16 +33,12 @@ class Demo011 extends Demo
 		return route('webapi.demo', $this->getNumber()) . ($query !== null ? '?' . $query : '');
 	}
 
-	public function getGuzzleClientParameters()
+	public function getRequestOptions()
 	{
 		return [
+			'encrypted_api' => ['automatic_method_spoofing' => false],
 			'cookies' => new CookieJar,
 		];
-	}
-
-	public function modifyClient()
-	{
-		$this->client->automaticMethodSpoofing(false);
 	}
 
 	public function executeServer(Request $request)

@@ -33,9 +33,12 @@ class Demo100 extends Demo
 		return urlencode('  get.parameter  ') . '=&' . urlencode('get_parameter_2[][][[[fff]]]igno.red[]') . '=value';
 	}
 
-	public function getGuzzleClientParameters()
+	public function getRequestOptions()
 	{
 		return [
+			'encrypted_api' => [
+				'visible_headers' => ['X-Request-Header-Visible'],
+			],
 			'headers' => [
 				'X-Request-Header-Visible' => 'visible',
 				'X-Request-Header-Encrypted' => 'encrypted',
@@ -48,11 +51,6 @@ class Demo100 extends Demo
 				],
 			],
 		];
-	}
-
-	public function modifyClient()
-	{
-		$this->client->withVisibleHeader('X-Request-Header-Visible');
 	}
 
 	public function executeServer(Request $request)

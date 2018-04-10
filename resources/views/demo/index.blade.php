@@ -24,8 +24,8 @@
 					<h3>Endpoint</h3>
 					<code>{{ strtoupper($demo->getRequestMethod()) }} {{ $demo->getRequestUrl() }}</code>
 
-					<h3>Guzzle client parameters</h3>
-					@php(dump($demo->getGuzzleClientParameters()))
+					<h3>Guzzle request options</h3>
+					@php(dump($demo->getRequestOptions()))
 
 					<a href="{{ route('demo', [$demo->getNumber(), 'execute']) }}" class="btn btn-primary btn-lg">Execute</a>
 				</div>

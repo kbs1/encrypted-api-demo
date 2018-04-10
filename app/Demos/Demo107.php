@@ -24,14 +24,12 @@ class Demo107 extends Demo
 		return 'POST';
 	}
 
-	public function modifyClient()
-	{
-		$this->client->setSpoofedMethod('PUT');
-	}
-
-	public function getGuzzleClientParameters()
+	public function getRequestOptions()
 	{
 		return [
+			'encrypted_api' => [
+				'spoofed_method' => 'PUT',
+			],
 			'multipart' => [
 				[
 					'name' => 'parameter1',

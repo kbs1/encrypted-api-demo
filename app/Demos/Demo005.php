@@ -22,7 +22,7 @@ class Demo005 extends Demo
 		return 'Sends GET request with cookies. The cookies are transmitted encrypted by default.';
 	}
 
-	public function getGuzzleClientParameters()
+	public function getRequestOptions()
 	{
 		$jar = CookieJar::fromArray([
 			'cookie_name' => 'cookie_value',

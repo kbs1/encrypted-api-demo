@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 abstract class Demo
 {
-	protected $client, $executed = false;
+	protected $client, $middleware, $options, $executed = false;
 
 	public function getNumber()
 	{
@@ -59,7 +59,7 @@ abstract class Demo
 		return null;
 	}
 
-	public function getGuzzleClientParameters()
+	public function getRequestOptions()
 	{
 		return null;
 	}
@@ -67,11 +67,11 @@ abstract class Demo
 	public function executeClient()
 	{
 		$this->createClient();
-		$this->modifyClient();
 
 		$method = $this->getRequestMethod();
-		$this->client->$method($this->getRequestUrl(), $this->getGuzzleClientParameters());
+		$response = $this->client->$method($this->getRequestUrl(), EncryptedApiClient::prepareOptions($this->options = $this->getRequestOptions()));
 		$this->executed = true;
+		return $response;
 	}
 
 	public function getClient()
@@ -79,14 +79,23 @@ abstract class Demo
 		return $this->client;
 	}
 
-	public function createClient()
+	public function getMiddleware()
 	{
-		$this->client = EncryptedApiClient::create(config('encrypted_api.secret1'), config('encrypted_api.secret2'));
+		return $this->middleware;
 	}
 
-	public function modifyClient()
+	public function getLastRequestOption($name = null)
 	{
-		return;
+		if ($name)
+			return $this->options[$name] ?? null;
+
+		return $this->options;
+	}
+
+	public function createClient()
+	{
+		$this->client = EncryptedApiClient::createDefaultGuzzleClient(config('encrypted_api.secret1'), config('encrypted_api.secret2'), $middleware);
+		$this->middleware = $middleware;
 	}
 
 	public function viewResponseEscaped()
