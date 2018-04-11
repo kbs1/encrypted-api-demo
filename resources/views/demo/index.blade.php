@@ -45,17 +45,21 @@
 
 				@if ($demo->isExecuted())
 					<div role="tabpanel" class="tab-pane" id="request">
-						@if ($demo->getrequestDescription() !== null)
-							<p class="offset-sm">{!! $demo->getRequestDescription() !!}</p>
-						@endif
+						@if (!$encrypted_api_disabled)
+							@if ($demo->getrequestDescription() !== null)
+								<p class="offset-sm">{!! $demo->getRequestDescription() !!}</p>
+							@endif
 <pre class="wrap">{{ $request->getMethod() }} {{ $request->getRequestTarget() }} HTTP/{{ $request->getProtocolVersion() }}
 {{ $demo->headersToString($request->getHeaders()) }}
 
 {{ (string) $request->getBody() }}
 </pre>
+						@else
+							<p class="offset-sm">Unavailable using default Guzzle client configuration.</p>
+						@endif
 					</div>
 					<div role="tabpanel" class="tab-pane" id="raw-response">
-						@if ($demo->getRawResponseDescription() !== null)
+						@if (!$encrypted_api_disabled && $demo->getRawResponseDescription() !== null)
 							<p class="offset-sm">{!! $demo->getRawResponseDescription() !!}</p>
 						@endif
 <pre class="wrap">{{ $demo->headersToString($raw_response->getHeaders()) }}
@@ -66,6 +70,15 @@
 					<div role="tabpanel" class="tab-pane active" id="response">
 						@if ($demo->getResponseDescription() !== null)
 							<p class="offset-lg">{!! $demo->getResponseDescription() !!}</p>
+						@endif
+						@if ($encrypted_api_disabled)
+							<p>Request took {{ $time }}ms. This includes Guzzle client's processing time and server request processing time. Encrypted
+							Api was disabled during this request, therefore no extra time was spent on encrypted communication.
+							<br><a href="{{ route('demo', [$demo->getNumber(), 'execute']) }}">Re-execute with encrypted API</a></p>
+						@else
+							<p>Request took {{ $time }}ms. This includes Guzzle client's processing time, Encrypted Api client middleware, server
+							request processing time and response processing time.
+							<br><a href="{{ route('demo', [$demo->getNumber(), 'execute']) }}?disable_encrypted_api=1">Re-execute without encrypted API</a></p>
 						@endif
 						<hr>
 						<h3>Response headers</h3>

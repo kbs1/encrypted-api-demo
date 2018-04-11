@@ -64,12 +64,17 @@ abstract class Demo
 		return null;
 	}
 
-	public function executeClient()
+	public function executeClient($disable_encrypted_api = false)
 	{
-		$this->createClient();
+		$this->createClient($disable_encrypted_api);
 
 		$method = $this->getRequestMethod();
-		$response = $this->client->$method($this->getRequestUrl(), EncryptedApiClient::prepareOptions($this->options = $this->getRequestOptions()));
+
+		if ($disable_encrypted_api)
+			$response = $this->client->$method($this->getRequestUrl(), $this->options = $this->getRequestOptions());
+		else
+			$response = $this->client->$method($this->getRequestUrl(), EncryptedApiClient::prepareOptions($this->options = $this->getRequestOptions()));
+
 		$this->executed = true;
 		return $response;
 	}
@@ -92,10 +97,14 @@ abstract class Demo
 		return $this->options;
 	}
 
-	public function createClient()
+	public function createClient($disable_encrypted_api = false)
 	{
-		$this->client = EncryptedApiClient::createDefaultGuzzleClient(config('encrypted_api.secret1'), config('encrypted_api.secret2'), $middleware);
-		$this->middleware = $middleware;
+		if ($disable_encrypted_api) {
+			$this->client = new GuzzleClient(['http_errors' => false]);
+		} else {
+			$this->client = EncryptedApiClient::createDefaultGuzzleClient(config('encrypted_api.secret1'), config('encrypted_api.secret2'), $middleware);
+			$this->middleware = $middleware;
+		}
 	}
 
 	public function viewResponseEscaped()
