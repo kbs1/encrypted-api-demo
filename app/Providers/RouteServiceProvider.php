@@ -69,5 +69,10 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+
+        Route::prefix('api-unencrypted')
+             ->middleware('api')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/api_unencrypted.php'));
     }
 }

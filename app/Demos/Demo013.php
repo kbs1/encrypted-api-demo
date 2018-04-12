@@ -42,7 +42,7 @@ class Demo013 extends Demo
 
 	public function executeServer(Request $request)
 	{
-		return redirect()->route('api.demo', '001')
+		return redirect()->route('api' . (strpos($request->fullUrl(), 'unencrypted') !== false ? '-unencrypted' : '') . '.demo', '001')
 			->withVisibleHeader('X-Response-Header-Visible')
 			->header('X-Response-Header-Visible', 'visible')
 			->header('X-Response-Header-Encrypted', 'encrypted')

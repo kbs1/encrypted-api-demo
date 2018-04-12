@@ -2,14 +2,22 @@
 
 namespace App\Demos;
 
-use GuzzleHttp\Client as GuzzleClient;
-use Kbs1\EncryptedApiClientPhp\Client as EncryptedApiClient;
+use GuzzleHttp\{Client as GuzzleClient, Middleware};
+use Psr\Http\Message\RequestInterface;
 
+use Kbs1\EncryptedApiClientPhp\Client as EncryptedApiClient;
 use Illuminate\Http\Request;
 
 abstract class Demo
 {
 	protected $client, $middleware, $options, $executed = false;
+	protected $encrypted_api_disabled = false;
+	protected $request, $response;
+
+	public function __construct($encrypted_api_disabled = false)
+	{
+		$this->encrypted_api_disabled = $encrypted_api_disabled;
+	}
 
 	public function getNumber()
 	{
@@ -51,7 +59,7 @@ abstract class Demo
 	public function getRequestUrl()
 	{
 		$query = $this->getRequestQueryString();
-		return route('api.demo', $this->getNumber()) . ($query !== null ? '?' . $query : '');
+		return route('api' . ($this->encrypted_api_disabled ? '-unencrypted' : '') . '.demo', $this->getNumber()) . ($query !== null ? '?' . $query : '');
 	}
 
 	public function getRequestQueryString()
@@ -64,19 +72,34 @@ abstract class Demo
 		return null;
 	}
 
-	public function executeClient($disable_encrypted_api = false)
+	public function executeClient()
 	{
-		$this->createClient($disable_encrypted_api);
+		$this->createClient();
 
 		$method = $this->getRequestMethod();
 
-		if ($disable_encrypted_api)
-			$response = $this->client->$method($this->getRequestUrl(), $this->options = $this->getRequestOptions());
+		if ($this->encrypted_api_disabled)
+			$this->response = $this->client->$method($this->getRequestUrl(), $this->options = $this->getRequestOptions());
 		else
-			$response = $this->client->$method($this->getRequestUrl(), EncryptedApiClient::prepareOptions($this->options = $this->getRequestOptions()));
+			$this->response = $this->client->$method($this->getRequestUrl(), EncryptedApiClient::prepareOptions($this->options = $this->getRequestOptions()));
 
 		$this->executed = true;
-		return $response;
+		return $this->response;
+	}
+
+	public function createClient()
+	{
+		if ($this->encrypted_api_disabled) {
+			$this->client = new GuzzleClient(['http_errors' => false]);
+			$stack = $this->client->getConfig('handler');
+			$stack->push(Middleware::mapRequest(function (RequestInterface $request) {
+				$this->request = clone $request;
+				return $request;
+			}));
+		} else {
+			$this->client = EncryptedApiClient::createDefaultGuzzleClient(config('encrypted_api.secret1'), config('encrypted_api.secret2'), $middleware);
+			$this->middleware = $middleware;
+		}
 	}
 
 	public function getClient()
@@ -84,9 +107,14 @@ abstract class Demo
 		return $this->client;
 	}
 
-	public function getMiddleware()
+	public function getLastRawRequest()
 	{
-		return $this->middleware;
+		return $this->encrypted_api_disabled ? $this->request : $this->middleware->getLastRawRequest();
+	}
+
+	public function getLastRawResponse()
+	{
+		return $this->encrypted_api_disabled ? $this->response : $this->middleware->getLastRawResponse();
 	}
 
 	public function getLastRequestOption($name = null)
@@ -95,16 +123,6 @@ abstract class Demo
 			return $this->options[$name] ?? null;
 
 		return $this->options;
-	}
-
-	public function createClient($disable_encrypted_api = false)
-	{
-		if ($disable_encrypted_api) {
-			$this->client = new GuzzleClient(['http_errors' => false]);
-		} else {
-			$this->client = EncryptedApiClient::createDefaultGuzzleClient(config('encrypted_api.secret1'), config('encrypted_api.secret2'), $middleware);
-			$this->middleware = $middleware;
-		}
 	}
 
 	public function viewResponseEscaped()

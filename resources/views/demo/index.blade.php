@@ -22,7 +22,7 @@
 					<p>{!! $demo->getDescription() !!}</p>
 
 					<h3>Endpoint</h3>
-					<code>{{ strtoupper($demo->getRequestMethod()) }} {{ $demo->getRequestUrl() }}</code>
+					<code>{{ strtoupper($demo->getRequestMethod()) }} {{ $demo->getRequestUrl($encrypted_api_disabled ?? false) }}</code>
 
 					<h3>Guzzle request options</h3>
 					@php(dump($demo->getRequestOptions()))
@@ -45,18 +45,14 @@
 
 				@if ($demo->isExecuted())
 					<div role="tabpanel" class="tab-pane" id="request">
-						@if (!$encrypted_api_disabled)
-							@if ($demo->getrequestDescription() !== null)
-								<p class="offset-sm">{!! $demo->getRequestDescription() !!}</p>
-							@endif
+						@if ($demo->getrequestDescription() !== null)
+							<p class="offset-sm">{!! $demo->getRequestDescription() !!}</p>
+						@endif
 <pre class="wrap">{{ $request->getMethod() }} {{ $request->getRequestTarget() }} HTTP/{{ $request->getProtocolVersion() }}
 {{ $demo->headersToString($request->getHeaders()) }}
 
-{{ (string) $request->getBody() }}
+{!! htmlspecialchars((string) $request->getBody(), ENT_IGNORE) !!}
 </pre>
-						@else
-							<p class="offset-sm">Unavailable using default Guzzle client configuration.</p>
-						@endif
 					</div>
 					<div role="tabpanel" class="tab-pane" id="raw-response">
 						@if (!$encrypted_api_disabled && $demo->getRawResponseDescription() !== null)
@@ -74,6 +70,7 @@
 						@if ($encrypted_api_disabled)
 							<p>Request took {{ $time }}ms. This includes Guzzle client's processing time and server request processing time. Encrypted
 							Api was disabled during this request, therefore no extra time was spent on encrypted communication.
+							Notice that any <code>form_params</code> are ignored by PHP / Laravel for GET requests.
 							<br><a href="{{ route('demo', [$demo->getNumber(), 'execute']) }}">Re-execute with encrypted API</a></p>
 						@else
 							<p>Request took {{ $time }}ms. This includes Guzzle client's processing time, Encrypted Api client middleware, server

@@ -22,6 +22,6 @@ class Demo015 extends Demo
 
 	public function getRequestUrl()
 	{
-		return request()->getScheme() . '://user:password@' . request()->getHost() . ':' . request()->getPort() . '/api/demo/015?z=1&f=2#fragment';
+		return request()->getScheme() . '://user:password@' . request()->getHost() . ':' . request()->getPort() . '/api' . ($this->encrypted_api_disabled ? '-unencrypted' : '') . '/demo/015?z=1&f=2#fragment';
 	}
 }

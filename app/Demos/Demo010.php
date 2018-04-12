@@ -27,7 +27,7 @@ class Demo010 extends Demo
 	public function getRequestUrl()
 	{
 		$query = $this->getRequestQueryString();
-		return route('webapi.demo', $this->getNumber()) . ($query !== null ? '?' . $query : '');
+		return route('webapi' . ($this->encrypted_api_disabled ? '-unencrypted' : '') . '.demo', $this->getNumber()) . ($query !== null ? '?' . $query : '');
 	}
 
 	public function getRequestOptions()

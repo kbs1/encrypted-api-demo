@@ -14,3 +14,4 @@
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/demo/{number}/{execute?}', 'ClientController@index')->name('demo');
 Route::any('/webapi/demo/{number}', 'Api\ServerController@index')->name('webapi.demo');
+Route::any('/webapi-unencrypted/demo/{number}', 'Api\ServerController@index')->name('webapi-unencrypted.demo');

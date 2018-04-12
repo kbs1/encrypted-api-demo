@@ -8,20 +8,20 @@ class ClientController extends DemoController
 {
 	public function index($number, $execute = null)
 	{
-		$demo = $this->loadDemo($number);
+		$demo = $this->loadDemo($number, $disable_encrypted_api = (boolean) request()->input('disable_encrypted_api'));
 
 		$response = null;
-		$disable_encrypted_api = (boolean) request()->input('disable_encrypted_api');
+		$start = $end = 0;
 
 		if ($execute) {
 			if (request()->input('disable_exception_handling') == '1') {
 				$start = microtime(true);
-				$response = $demo->executeClient($disable_encrypted_api);
+				$response = $demo->executeClient();
 				$end = microtime(true);
 			} else {
 				try {
 					$start = microtime(true);
-					$response = $demo->executeClient($disable_encrypted_api);
+					$response = $demo->executeClient();
 					$end = microtime(true);
 				} catch (\Exception $ex) {
 					return view('demo.index', [
@@ -35,8 +35,8 @@ class ClientController extends DemoController
 
 		return view('demo.index', [
 			'demo' => $demo,
-			'request' => (!$disable_encrypted_api && $demo->isExecuted()) ? $demo->getMiddleware()->getLastRawRequest() : null,
-			'raw_response' => $disable_encrypted_api ? $response : ($demo->isExecuted() ? $demo->getMiddleware()->getLastRawResponse() : null),
+			'request' => $demo->isExecuted() ? $demo->getLastRawRequest() : null,
+			'raw_response' => $demo->isExecuted() ? $demo->getLastRawResponse() : null,
 			'response' => $response,
 			'cookies' => $demo->isExecuted() ? $demo->getLastRequestOption('cookies') : null,
 			'activeTab' => 'demo-' . $demo->getNumber(),

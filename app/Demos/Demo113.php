@@ -46,6 +46,6 @@ class Demo113 extends Demo
 
 	public function executeServer(Request $request)
 	{
-		return redirect()->route('api.demo', '001');
+		return redirect()->route('api' . (strpos($request->fullUrl(), 'unencrypted') !== false ? '-unencrypted' : '') . '.demo', '001');
 	}
 }

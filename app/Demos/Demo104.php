@@ -6,8 +6,9 @@ class Demo104 extends Demo
 {
 	protected $random_data;
 
-	public function __construct()
+	public function __construct($disable_encrypted_api = false)
 	{
+		parent::__construct($disable_encrypted_api);
 		$this->random_data = openssl_random_pseudo_bytes(512);
 	}
 
